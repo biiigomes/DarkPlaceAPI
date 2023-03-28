@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CasesWithoutSolution {
+public class CasesWithoutSolutionDTO {
     private Long id;
     private String title;
     private String history;

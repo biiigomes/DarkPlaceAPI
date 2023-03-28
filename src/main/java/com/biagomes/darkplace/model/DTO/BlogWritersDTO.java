@@ -2,6 +2,7 @@ package com.biagomes.darkplace.model.DTO;
 
 import java.util.List;
 
+import com.biagomes.darkplace.model.CasesWithoutSolution;
 import com.biagomes.darkplace.model.Legends;
 
 import lombok.AllArgsConstructor;

@@ -1,5 +1,17 @@
 package com.biagomes.darkplace.services;
 
-public class LegendsService {
+import org.springframework.data.domain.Page;
+
+import com.biagomes.darkplace.model.DTO.LegendsDTO;
+
+public interface LegendsService {
+    Page<LegendsDTO> getAll(int page, int size, String sort);
     
+    LegendsDTO getById(Long id);
+
+    LegendsDTO create(LegendsDTO legendsDTO);
+
+    LegendsDTO update(LegendsDTO legendsDTO, Long id);
+
+    void delete(Long id);
 }
