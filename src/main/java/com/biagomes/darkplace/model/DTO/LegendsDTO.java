@@ -13,5 +13,5 @@ public class LegendsDTO {
    private Long id;
    private String title;
    private String history;
-   private BlogWritersDTO blogWritersDTO;
+   private BlogWritersDTO blogWriters;
 }

@@ -2,7 +2,7 @@ package com.biagomes.darkplace.repository;
 
 import java.util.Optional;
 
-import org.springdoc.core.converters.models.Pageable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,5 +24,5 @@ public interface LegendsRepository extends JpaRepository<Legends, Long> {
 
     @Query("SELECT l FROM Legends l WHERE " +
             "l.title.id = :id")
-    public Optional<Legends> findLegebdsByTitle(@Param("title") String title);
+    public Optional<Legends> findLegendsByTitle(@Param("title") String title);
 }

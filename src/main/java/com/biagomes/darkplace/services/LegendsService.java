@@ -14,4 +14,6 @@ public interface LegendsService {
     LegendsDTO update(LegendsDTO legendsDTO, Long id);
 
     void delete(Long id);
+
+    Page<LegendsDTO> getAllByWriter(int page, int size, String sort, Long id);
 }

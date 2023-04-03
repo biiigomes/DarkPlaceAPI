@@ -32,6 +32,8 @@ public class BlogWritersServiceImpl implements BlogWritersService {
     
     @Override
     public Page<BlogWritersDTO> getAll(int page, int size, String sort) {
+        logger.info("Encontrando todos os escritores");
+        
         var pageable = PageRequest.of(page, size, Sort.Direction.ASC, sort);
         Page<BlogWriters> result = repository.findAll(pageable);
         return result.map(obj -> mapper.map(obj, BlogWritersDTO.class));
@@ -39,7 +41,7 @@ public class BlogWritersServiceImpl implements BlogWritersService {
 
     @Override
     public BlogWritersDTO getById(Long id) {
-        logger.info("Encontrando um autor");
+        logger.info("Encontrando um escritor");
 
         BlogWriters writer = repository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Autor com esse id não encontrado"));
@@ -48,7 +50,7 @@ public class BlogWritersServiceImpl implements BlogWritersService {
 
     @Override
     public BlogWritersDTO create(Long id, BlogWritersDTO blogWritersDTO) {
-        logger.info("Criando um autor");
+        logger.info("Criando um escritor");
 
         Optional<BlogWriters> writerExists = repository
             .findWriterByNameFullnameAndUsername(
@@ -66,7 +68,7 @@ public class BlogWritersServiceImpl implements BlogWritersService {
 
     @Override
     public BlogWritersDTO update(BlogWritersDTO blogWritersDTO, Long id) {
-        logger.info("Atualizando um autor");
+        logger.info("Atualizando um escritor");
 
         Optional<BlogWriters> writerExists = repository.findById(id);
 
