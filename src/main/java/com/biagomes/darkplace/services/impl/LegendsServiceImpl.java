@@ -15,7 +15,6 @@ import com.biagomes.darkplace.model.BlogWriters;
 import com.biagomes.darkplace.model.Legends;
 import com.biagomes.darkplace.model.DTO.LegendsDTO;
 import com.biagomes.darkplace.repository.BlogWritersRepository;
-import com.biagomes.darkplace.repository.CasesWithoutSolutionRepository;
 import com.biagomes.darkplace.repository.LegendsRepository;
 import com.biagomes.darkplace.services.LegendsService;
 
@@ -51,15 +50,20 @@ public class LegendsServiceImpl implements LegendsService {
         logger.info("Encontrando uma lenda");
 
         Legends legends = repository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Autor com esse id não existe."));
+            .orElseThrow(() -> new EntityNotFoundException("Lenda com esse id não existe."));
 
         return mapper.map(legends, LegendsDTO.class);
     }
 
     @Override
     public LegendsDTO create(LegendsDTO legendsDTO) {
+        logger.info("Criando uma lenda");
+
         Optional<Legends> legendsOptional = repository.findLegendsByTitle(legendsDTO.getTitle());
-        Optional<BlogWriters> writersOptional = writersRepository.findById(legendsDTO.getBlogWriters().getId()); 
+        Optional<BlogWriters> writersOptional = writersRepository.findWriterByNameFullnameAndUsername(
+            legendsDTO.getBlogWritersDTO().getName(), 
+            legendsDTO.getBlogWritersDTO().getFullname(), 
+            legendsDTO.getBlogWritersDTO().getUsername());
 
         if(writersOptional.isEmpty()) throw new Error("Escritor não encontrado");
 
@@ -74,12 +78,14 @@ public class LegendsServiceImpl implements LegendsService {
 
     @Override
     public LegendsDTO update(LegendsDTO legendsDTO, Long id) {
+        logger.info("Atualizando uma lenda");
+
         Optional<Legends> legendsOptional = repository.findById(id);
-        Optional<BlogWriters> writersOptional = writersRepository.findById(legendsDTO.getBlogWriters().getId());
+        Optional<BlogWriters> writersOptional = writersRepository.findById(legendsDTO.getBlogWritersDTO().getId());
 
         if(writersOptional.isEmpty()) throw new Error("Escritor não encontrado");
 
-        if(legendsOptional.isPresent()) throw new Error("Lenda já existe no banco de dados");
+        if(legendsOptional.isEmpty()) throw new Error("Lenda com esse id não encontrado");
 
         Legends legends = mapper.map(legendsDTO, Legends.class);
         legends.setId(id);
@@ -101,6 +107,8 @@ public class LegendsServiceImpl implements LegendsService {
 
     @Override
     public Page<LegendsDTO> getAllByWriter(int page, int size, String sort, Long id) {
+        logger.info("Procurando lendas por autor");
+        
         Pageable pageabe = PageRequest.of(page, size, Sort.Direction.ASC, sort);
         Page<Legends> legendPage = repository.findLegendsByWriter(pageabe, id); 
 
