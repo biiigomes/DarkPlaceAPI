@@ -1,4 +1,4 @@
-package com.biagomes.darkplace.model.DTO;
+package com.biagomes.darkplace.model.DTO.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

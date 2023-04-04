@@ -2,7 +2,7 @@ package com.biagomes.darkplace.services;
 
 import org.springframework.data.domain.Page;
 
-import com.biagomes.darkplace.model.DTO.LegendsDTO;
+import com.biagomes.darkplace.model.DTO.response.LegendsDTO;
 
 public interface LegendsService {
     Page<LegendsDTO> getAll(int page, int size, String sort);
