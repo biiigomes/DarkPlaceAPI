@@ -22,7 +22,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "legends")
+@Table(name = "tb_legends")
 public class Legends implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -41,5 +41,5 @@ public class Legends implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "writer_id", referencedColumnName = "writer_id")
-    private BlogWriters blogWriters;
+    private BlogWriters blog_writers;
 }

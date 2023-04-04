@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class LegendsServiceImpl implements LegendsService {
 
-    private Logger logger = Logger.getLogger(LegendsService.class.getName());
+    private final Logger logger = Logger.getLogger(LegendsService.class.getName());
     
     @Autowired
     private LegendsRepository repository;
@@ -70,7 +70,7 @@ public class LegendsServiceImpl implements LegendsService {
         if (legendsOptional.isPresent()) throw new Error("Lenda já existe no banco de dados");
 
         Legends legends = mapper.map(legendsDTO, Legends.class);
-        legends.setBlogWriters(writersOptional.get());
+        legends.setBlog_writers(writersOptional.get());
 
         Legends legendSaved = repository.save(legends);
         return mapper.map(legendSaved, LegendsDTO.class);
@@ -89,7 +89,7 @@ public class LegendsServiceImpl implements LegendsService {
 
         Legends legends = mapper.map(legendsDTO, Legends.class);
         legends.setId(id);
-        legends.setBlogWriters(writersOptional.get());
+        legends.setBlog_writers(writersOptional.get());
 
         Legends legendSaved = repository.save(legends);
         return mapper.map(legendSaved, LegendsDTO.class);

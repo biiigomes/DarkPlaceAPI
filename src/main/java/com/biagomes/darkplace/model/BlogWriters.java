@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "blog_writers")
+@Table(name = "tb_blog_writers")
 public class BlogWriters implements Serializable{
     private static final long serialVersionUID = 1L;
 

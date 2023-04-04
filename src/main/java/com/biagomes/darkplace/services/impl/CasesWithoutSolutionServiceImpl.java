@@ -24,7 +24,8 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionService {
-    private Logger logger = Logger.getLogger(CasesWithoutSolutionService.class.getName());
+    
+    private final Logger logger = Logger.getLogger(CasesWithoutSolutionService.class.getName());
 
     @Autowired
     private CasesWithoutSolutionRepository repository;
@@ -69,7 +70,7 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
             if(casesOptional.isPresent()) throw new Error("Caso já existe");
 
             CasesWithoutSolution casesWithoutSolution = mapper.map(casesWithoutSolutionDTO, CasesWithoutSolution.class);
-            casesWithoutSolution.setBlogWriters(writersOpt.get());
+            casesWithoutSolution.setBlog_writers(writersOpt.get());
 
             CasesWithoutSolution casesWithoutSolutionSaved = repository.save(casesWithoutSolution);
             return mapper.map(casesWithoutSolutionSaved, CasesWithoutSolutionDTO.class);
@@ -88,7 +89,7 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
 
         CasesWithoutSolution cases = mapper.map(casesWithoutSolutionDTO, CasesWithoutSolution.class);
         cases.setId(id);
-        cases.setBlogWriters(writersOptional.get());
+        cases.setBlog_writers(writersOptional.get());
 
         CasesWithoutSolution casesSaved = repository.save(cases);
         return mapper.map(casesSaved, CasesWithoutSolutionDTO.class);

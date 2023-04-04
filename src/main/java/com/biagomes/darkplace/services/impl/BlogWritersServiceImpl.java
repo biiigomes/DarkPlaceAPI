@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class BlogWritersServiceImpl implements BlogWritersService {
 
-    private Logger logger = Logger.getLogger(BlogWritersService.class.getName());
+    private final Logger logger = Logger.getLogger(BlogWritersService.class.getName());
     
     @Autowired
     private BlogWritersRepository repository;
@@ -49,7 +49,7 @@ public class BlogWritersServiceImpl implements BlogWritersService {
     }
 
     @Override
-    public BlogWritersDTO create(Long id, BlogWritersDTO blogWritersDTO) {
+    public BlogWritersDTO create(BlogWritersDTO blogWritersDTO) {
         logger.info("Criando um escritor");
 
         Optional<BlogWriters> writerExists = repository
@@ -61,7 +61,6 @@ public class BlogWritersServiceImpl implements BlogWritersService {
 
         if(writerExists.isPresent()) throw new Error("Autor já registrado.");
 
-        blogWritersDTO.setId(id);
         BlogWriters blogWriters = repository.save(mapper.map(writerExists, BlogWriters.class));
         return mapper.map(blogWriters, BlogWritersDTO.class);
     }
