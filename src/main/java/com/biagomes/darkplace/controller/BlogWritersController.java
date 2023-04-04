@@ -52,12 +52,12 @@ public class BlogWritersController {
         @Valid 
         @RequestBody BlogWritersDTO blogWritersDTO, 
         @PathVariable("id") Long id){
-            return new ResponseEntity<>(blogWritersService.update(blogWritersDTO, id), HttpStatus.OK);
+            return new ResponseEntity<>(blogWritersService.update(id, blogWritersDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<BlogWritersDTO> delete(@PathVariable("id") Long id){
         blogWritersService.delete(id);
-        return new ResponseEntity<>(HttpStatusCode.valueOf(201));
+        return new ResponseEntity<>(HttpStatusCode.valueOf(200));
     }
 }

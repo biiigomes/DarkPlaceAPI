@@ -61,12 +61,12 @@ public class BlogWritersServiceImpl implements BlogWritersService {
 
         if(writerExists.isPresent()) throw new Error("Autor já registrado.");
 
-        BlogWriters blogWriters = repository.save(mapper.map(writerExists, BlogWriters.class));
+        BlogWriters blogWriters = repository.save(mapper.map(blogWritersDTO, BlogWriters.class));
         return mapper.map(blogWriters, BlogWritersDTO.class);
     }
 
     @Override
-    public BlogWritersDTO update(BlogWritersDTO blogWritersDTO, Long id) {
+    public BlogWritersDTO update(Long id, BlogWritersDTO blogWritersDTO) {
         logger.info("Atualizando um escritor");
 
         Optional<BlogWriters> writerExists = repository.findById(id);
@@ -74,7 +74,7 @@ public class BlogWritersServiceImpl implements BlogWritersService {
         if(writerExists.isEmpty()) throw new Error("Autor inexistente.");
 
         blogWritersDTO.setId(id);
-        BlogWriters blogWriters = repository.save(mapper.map(writerExists, BlogWriters.class));
+        BlogWriters blogWriters = repository.save(mapper.map(blogWritersDTO, BlogWriters.class));
         return mapper.map(blogWriters, BlogWritersDTO.class);
     }
 

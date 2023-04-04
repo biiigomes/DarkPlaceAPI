@@ -15,7 +15,7 @@ CREATE TABLE tb_cases_without_solution (
 );
 
 CREATE TABLE tb_legends (
-    tb_legends bigint primary ket auto_increment,
+    legends_id bigint primary ket auto_increment,
     title varchar(50) not null,
     history varchar(5000) not null,
     writer_id bigint not null,

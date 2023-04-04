@@ -11,7 +11,7 @@ public interface BlogWritersService {
 
     BlogWritersDTO create(BlogWritersDTO blogWritersDTO);
 
-    BlogWritersDTO update(BlogWritersDTO blogWritersDTO, Long id);
+    BlogWritersDTO update(Long id, BlogWritersDTO blogWritersDTO);
 
     void delete(Long id);
 
