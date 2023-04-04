@@ -1,4 +1,4 @@
-package com.biagomes.darkplace.model.DTO.response;
+package com.biagomes.darkplace.model.DTO;
 
 import java.util.List;
 
