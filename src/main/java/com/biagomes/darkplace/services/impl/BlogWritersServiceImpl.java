@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
 
 import com.biagomes.darkplace.model.BlogWriters;
-import com.biagomes.darkplace.model.DTO.response.BlogWritersDTO;
+import com.biagomes.darkplace.model.DTO.BlogWritersDTO;
 import com.biagomes.darkplace.repository.BlogWritersRepository;
 import com.biagomes.darkplace.services.BlogWritersService;
 
@@ -22,7 +22,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class BlogWritersServiceImpl implements BlogWritersService {
 
-    private final Logger logger = Logger.getLogger(BlogWritersService.class.getName());
     private final Logger logger = Logger.getLogger(BlogWritersService.class.getName());
     
     @Autowired
