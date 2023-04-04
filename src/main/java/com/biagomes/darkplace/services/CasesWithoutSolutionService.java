@@ -9,9 +9,11 @@ public interface CasesWithoutSolutionService {
     
     CasesWithoutSolutionDTO getById(Long id);
 
-    CasesWithoutSolutionDTO create(CasesWithoutSolutionDTO casesWithoutSolutionDTO);
+    CasesWithoutSolutionDTO create(CasesWithoutSolutionDTO casesRequestDTO);
 
-    CasesWithoutSolutionDTO update(CasesWithoutSolutionDTO casesWithoutSolutionDTO);
+    CasesWithoutSolutionDTO update(Long id, CasesWithoutSolutionDTO casesRequestDTO);
 
     void delete(Long id);
+
+    Page<CasesWithoutSolutionDTO> getAllByWriter(int page, int size, String sort, Long id);
 }

@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "blog_writers")
+@Table(name = "tb_blog_writers")
 public class BlogWriters implements Serializable{
     private static final long serialVersionUID = 1L;
 
@@ -45,9 +45,9 @@ public class BlogWriters implements Serializable{
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "blog_writers")
+    @OneToMany(mappedBy = "blog_writers", orphanRemoval = false)
     private List<CasesWithoutSolution> casesWithoutSolution;
 
-    @OneToMany(mappedBy = "blog_writers")
+    @OneToMany(mappedBy = "blog_writers", orphanRemoval = false)
     private List<Legends> legends;
 }

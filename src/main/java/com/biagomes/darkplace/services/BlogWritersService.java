@@ -9,9 +9,10 @@ public interface BlogWritersService {
 
     BlogWritersDTO getById(Long id);
 
-    BlogWritersDTO create(Long id, BlogWritersDTO blogWritersDTO);
+    BlogWritersDTO create(BlogWritersDTO writers);
 
-    BlogWritersDTO update(BlogWritersDTO blogWritersDTO, Long id);
+    BlogWritersDTO update(Long id, BlogWritersDTO writers);
 
     void delete(Long id);
+
 }

@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class BlogWritersServiceImpl implements BlogWritersService {
 
-    private Logger logger = Logger.getLogger(BlogWritersService.class.getName());
+    private final Logger logger = Logger.getLogger(BlogWritersService.class.getName());
     
     @Autowired
     private BlogWritersRepository repository;
@@ -32,6 +32,8 @@ public class BlogWritersServiceImpl implements BlogWritersService {
     
     @Override
     public Page<BlogWritersDTO> getAll(int page, int size, String sort) {
+        logger.info("Encontrando todos os escritores");
+        
         var pageable = PageRequest.of(page, size, Sort.Direction.ASC, sort);
         Page<BlogWriters> result = repository.findAll(pageable);
         return result.map(obj -> mapper.map(obj, BlogWritersDTO.class));
@@ -39,7 +41,7 @@ public class BlogWritersServiceImpl implements BlogWritersService {
 
     @Override
     public BlogWritersDTO getById(Long id) {
-        logger.info("Encontrando um autor");
+        logger.info("Encontrando um escritor");
 
         BlogWriters writer = repository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Autor com esse id não encontrado"));
@@ -47,33 +49,32 @@ public class BlogWritersServiceImpl implements BlogWritersService {
     }
 
     @Override
-    public BlogWritersDTO create(Long id, BlogWritersDTO blogWritersDTO) {
-        logger.info("Criando um autor");
+    public BlogWritersDTO create(BlogWritersDTO writers) {
+        logger.info("Criando um escritor");
 
         Optional<BlogWriters> writerExists = repository
             .findWriterByNameFullnameAndUsername(
-                blogWritersDTO.getName(), 
-                blogWritersDTO.getFullname(), 
-                blogWritersDTO.getUsername()
+                writers.getName(), 
+                writers.getFullname(), 
+                writers.getUsername()
             );
 
         if(writerExists.isPresent()) throw new Error("Autor já registrado.");
 
-        blogWritersDTO.setId(id);
-        BlogWriters blogWriters = repository.save(mapper.map(writerExists, BlogWriters.class));
+        BlogWriters blogWriters = repository.save(mapper.map(writers, BlogWriters.class));
         return mapper.map(blogWriters, BlogWritersDTO.class);
     }
 
     @Override
-    public BlogWritersDTO update(BlogWritersDTO blogWritersDTO, Long id) {
-        logger.info("Atualizando um autor");
+    public BlogWritersDTO update(Long id, BlogWritersDTO writers) {
+        logger.info("Atualizando um escritor");
 
         Optional<BlogWriters> writerExists = repository.findById(id);
 
         if(writerExists.isEmpty()) throw new Error("Autor inexistente.");
 
-        blogWritersDTO.setId(id);
-        BlogWriters blogWriters = repository.save(mapper.map(writerExists, BlogWriters.class));
+        writers.setId(id);
+        BlogWriters blogWriters = repository.save(mapper.map(writers, BlogWriters.class));
         return mapper.map(blogWriters, BlogWritersDTO.class);
     }
 
