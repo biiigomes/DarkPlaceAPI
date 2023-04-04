@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.biagomes.darkplace.model.DTO.BlogWritersDTO;
+import com.biagomes.darkplace.model.DTO.response.BlogWritersDTO;
 import com.biagomes.darkplace.services.BlogWritersService;
 
 import jakarta.validation.Valid;

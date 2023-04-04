@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.biagomes.darkplace.model.BlogWriters;
 import com.biagomes.darkplace.model.Legends;
-import com.biagomes.darkplace.model.DTO.LegendsDTO;
+import com.biagomes.darkplace.model.DTO.response.LegendsDTO;
 import com.biagomes.darkplace.repository.BlogWritersRepository;
 import com.biagomes.darkplace.repository.LegendsRepository;
 import com.biagomes.darkplace.services.LegendsService;

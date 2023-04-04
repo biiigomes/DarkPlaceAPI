@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.biagomes.darkplace.model.BlogWriters;
 import com.biagomes.darkplace.model.CasesWithoutSolution;
-import com.biagomes.darkplace.model.DTO.CasesWithoutSolutionDTO;
+import com.biagomes.darkplace.model.DTO.request.CasesRequestDTO;
+import com.biagomes.darkplace.model.DTO.response.CasesWithoutSolutionDTO;
 import com.biagomes.darkplace.repository.BlogWritersRepository;
 import com.biagomes.darkplace.repository.CasesWithoutSolutionRepository;
 import com.biagomes.darkplace.services.CasesWithoutSolutionService;
@@ -56,20 +57,17 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
     }
 
     @Override
-    public CasesWithoutSolutionDTO create(CasesWithoutSolutionDTO casesWithoutSolutionDTO) {
-        logger.info("Criando uma lenda");
+    public CasesWithoutSolutionDTO create(CasesRequestDTO casesRequestDTO) {
+        logger.info("Criando um caso");
 
-        Optional<CasesWithoutSolution> casesOptional = repository.findCasesWithoutSolutionByTitle(casesWithoutSolutionDTO.getTitle());
-        Optional<BlogWriters> writersOpt = writersRepository.findWriterByNameFullnameAndUsername(
-            casesWithoutSolutionDTO.getBlogWritersDTO().getName(), 
-            casesWithoutSolutionDTO.getBlogWritersDTO().getFullname(), 
-            casesWithoutSolutionDTO.getBlogWritersDTO().getUsername());
+        Optional<CasesWithoutSolution> casesOptional = repository.findCasesWithoutSolutionByTitle(casesRequestDTO.getTitle());
+        Optional<BlogWriters> writersOpt = writersRepository.findById(casesRequestDTO.getBlogWriters());
         
             if(writersOpt.isEmpty()) throw new Error("Escritor não encontrado");
 
             if(casesOptional.isPresent()) throw new Error("Caso já existe");
 
-            CasesWithoutSolution casesWithoutSolution = mapper.map(casesWithoutSolutionDTO, CasesWithoutSolution.class);
+            CasesWithoutSolution casesWithoutSolution = mapper.map(casesRequestDTO, CasesWithoutSolution.class);
             casesWithoutSolution.setBlog_writers(writersOpt.get());
 
             CasesWithoutSolution casesWithoutSolutionSaved = repository.save(casesWithoutSolution);
@@ -77,17 +75,17 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
     }
 
     @Override
-    public CasesWithoutSolutionDTO update(CasesWithoutSolutionDTO casesWithoutSolutionDTO, Long id) {
+    public CasesWithoutSolutionDTO update(Long id, CasesRequestDTO casesRequestDTO) {
         logger.info("Atualizando um caso");
 
         Optional<CasesWithoutSolution> casesOptional = repository.findById(id);
-        Optional<BlogWriters> writersOptional = writersRepository.findById(casesWithoutSolutionDTO.getBlogWritersDTO().getId());
+        Optional<BlogWriters> writersOptional = writersRepository.findById(casesRequestDTO.getBlogWriters());
 
         if(writersOptional.isEmpty()) throw new Error("Escritor com esse id não encontrado");
 
         if(casesOptional.isEmpty()) throw new Error("Caso com esse id não encontrado");
 
-        CasesWithoutSolution cases = mapper.map(casesWithoutSolutionDTO, CasesWithoutSolution.class);
+        CasesWithoutSolution cases = mapper.map(casesRequestDTO, CasesWithoutSolution.class);
         cases.setId(id);
         cases.setBlog_writers(writersOptional.get());
 

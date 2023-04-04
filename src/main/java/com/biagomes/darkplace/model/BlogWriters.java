@@ -45,9 +45,9 @@ public class BlogWriters implements Serializable{
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "blog_writers")
+    @OneToMany(mappedBy = "blog_writers", orphanRemoval = false)
     private List<CasesWithoutSolution> casesWithoutSolution;
 
-    @OneToMany(mappedBy = "blog_writers")
+    @OneToMany(mappedBy = "blog_writers", orphanRemoval = false)
     private List<Legends> legends;
 }

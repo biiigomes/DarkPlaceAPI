@@ -1,4 +1,4 @@
-package com.biagomes.darkplace.model.DTO;
+package com.biagomes.darkplace.model.DTO.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,5 +13,5 @@ public class CasesWithoutSolutionDTO {
     private Long id;
     private String title;
     private String history;
-    private BlogWritersDTO blogWritersDTO;
+    private BlogWritersDTO blogWriters;
 }
