@@ -56,6 +56,17 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
     }
 
     @Override
+    public Page<CasesWithoutSolutionDTO> getAllByWriter(int page, int size, String sort, Long id) {
+       logger.info("Procurando por casos por autor");
+
+       Pageable pageable = PageRequest.of(page, size, Sort.Direction.ASC, sort);
+       Page<CasesWithoutSolution> casesPage = repository.findCasesWithoutSolutionByWriter(pageable, id);
+
+       return casesPage.map(obj -> mapper.map(obj, CasesWithoutSolutionDTO.class));
+
+    }
+
+    @Override
     public CasesWithoutSolutionDTO create(CasesWithoutSolutionDTO cases) {
         logger.info("Criando um caso");
 
@@ -65,11 +76,11 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
         Optional<BlogWriters> writersOpt = writersRepository.findById(cases.getBlogWriters());
         if(writersOpt.isEmpty()) throw new Error("Escritor não encontrado");
 
-        CasesWithoutSolution casesWithoutSolution = mapper.map(cases, CasesWithoutSolution.class);
-        casesWithoutSolution.setBlog_writers(writersOpt.get());
+        CasesWithoutSolution casesWSolution = repository.save(mapper.map(cases, CasesWithoutSolution.class));
+        casesWSolution.setBlog_writers(writersOpt.get());
 
-        CasesWithoutSolution casesWithoutSolutionSaved = repository.save(casesWithoutSolution);
-        return mapper.map(casesWithoutSolutionSaved, CasesWithoutSolutionDTO.class);
+        CasesWithoutSolution casesWSolutionSaved = repository.save(casesWSolution);
+        return mapper.map(casesWSolutionSaved, CasesWithoutSolutionDTO.class);
     }
 
     @Override
@@ -77,15 +88,11 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
         logger.info("Atualizando um caso");
 
         Optional<CasesWithoutSolution> casesOptional = repository.findById(id);
-        Optional<BlogWriters> writersOptional = writersRepository.findById(cases.getBlogWriters());
-
-        if(writersOptional.isEmpty()) throw new Error("Escritor com esse id não encontrado");
-
         if(casesOptional.isEmpty()) throw new Error("Caso com esse id não encontrado");
 
         CasesWithoutSolution casesWSolution = mapper.map(cases, CasesWithoutSolution.class);
         casesWSolution.setId(id);
-        casesWSolution.setBlog_writers(writersOptional.get());
+        // casesWSolution.setBlog_writers(writersOpt.get());
 
         CasesWithoutSolution casesSaved = repository.save(casesWSolution);
         return mapper.map(casesSaved, CasesWithoutSolutionDTO.class);
@@ -100,18 +107,4 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
 
         repository.delete(cases);
     }
-
-    @Override
-    public Page<CasesWithoutSolutionDTO> getAllByWriter(int page, int size, String sort, Long id) {
-       logger.info("Procurando por casos por autor");
-
-       Pageable pageable = PageRequest.of(page, size, Sort.Direction.ASC, sort);
-       Page<CasesWithoutSolution> casesPage = repository.findCasesWithoutSolutionByWriter(pageable, id);
-
-       return casesPage.map(obj -> mapper.map(obj, CasesWithoutSolutionDTO.class));
-
-    }
-
-    
-    
 }
