@@ -13,5 +13,5 @@ public class CasesWithoutSolutionDTO {
     private Long id;
     private String title;
     private String history;
-    private Long Writers;
+    private Long writers;
 }
