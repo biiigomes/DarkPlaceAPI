@@ -14,10 +14,10 @@ public interface LegendsRepository extends JpaRepository<Legends, Long> {
     @Query(
             value = 
                 "SELECT l FROM Legends l WHERE " +
-                "l.blog_writers.id = :id ",
+                "l.writer.id = :id ",
             countQuery = 
                 "SELECT COUNT(l) FROM Legends l WHERE " +
-                "l.blog_writers.id = :id")
+                "l.writer.id = :id")
     public Page<Legends> findLegendsByWriter(Pageable pageable, Long id);
 
     @Query("SELECT l FROM Legends l WHERE " +

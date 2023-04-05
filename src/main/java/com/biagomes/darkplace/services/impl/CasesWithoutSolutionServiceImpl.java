@@ -73,11 +73,11 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
         Optional<CasesWithoutSolution> casesOptional = repository.findCasesWithoutSolutionByTitle(cases.getTitle());
         if(casesOptional.isPresent()) throw new Error("Caso já existe");
 
-        Optional<BlogWriters> writersOpt = writersRepository.findById(cases.getBlogWriters());
+        Optional<BlogWriters> writersOpt = writersRepository.findById(cases.getWriters());
         if(writersOpt.isEmpty()) throw new Error("Escritor não encontrado");
 
         CasesWithoutSolution casesWSolution = repository.save(mapper.map(cases, CasesWithoutSolution.class));
-        casesWSolution.setBlog_writers(writersOpt.get());
+        casesWSolution.setWriter(writersOpt.get());
 
         CasesWithoutSolution casesWSolutionSaved = repository.save(casesWSolution);
         return mapper.map(casesWSolutionSaved, CasesWithoutSolutionDTO.class);

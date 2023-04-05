@@ -41,5 +41,5 @@ public class CasesWithoutSolution implements Serializable {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "writer_id", referencedColumnName = "writer_id")
-    private BlogWriters blog_writers;
+    private BlogWriters writer;
 }

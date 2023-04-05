@@ -1,4 +1,4 @@
-CREATE TABLE tb_blog_writers (
+CREATE TABLE tb_writers (
     writer_id bigint primary key auto_increment,
     name varchar(100) not null,
     fullname varchar(100) not null,
@@ -11,7 +11,7 @@ CREATE TABLE tb_cases_without_solution (
     title varchar(50) not null,
     history varchar(5000) not null,
     writer_id bigint not null,
-    foreign key (writer_id) references tb_blog_writers(writer_id)
+    foreign key (writer_id) references tb_writers(writer_id)
 );
 
 CREATE TABLE tb_legends (
@@ -19,5 +19,5 @@ CREATE TABLE tb_legends (
     title varchar(50) not null,
     history varchar(5000) not null,
     writer_id bigint not null,
-    foreign key (writer_id) references tb_blog_writers(writer_id)
+    foreign key (writer_id) references tb_writers(writer_id)
 );

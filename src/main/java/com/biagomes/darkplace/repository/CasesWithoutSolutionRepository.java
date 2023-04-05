@@ -14,10 +14,10 @@ public interface CasesWithoutSolutionRepository extends JpaRepository<CasesWitho
     @Query(
             value = 
                 "SELECT c FROM CasesWithoutSolution c WHERE " +
-                "c.blog_writers.id = :id ",
+                "c.writer.id = :id ",
             countQuery = 
                 "SELECT COUNT(c) FROM CasesWithoutSolution c WHERE " +
-                "c.blog_writers.id = :id")
+                "c.writer.id = :id")
     public Page<CasesWithoutSolution> findCasesWithoutSolutionByWriter(Pageable pageable, Long id);
 
     @Query("SELECT c FROM CasesWithoutSolution c WHERE " +

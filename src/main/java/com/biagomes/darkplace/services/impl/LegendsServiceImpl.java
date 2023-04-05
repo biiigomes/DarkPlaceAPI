@@ -60,14 +60,14 @@ public class LegendsServiceImpl implements LegendsService {
         logger.info("Criando uma lenda");
 
         Optional<Legends> legendsOptional = repository.findLegendsByTitle(legendsDTO.getTitle());
-        Optional<BlogWriters> writersOptional = writersRepository.findById(legendsDTO.getBlogWritersDTO());
+        Optional<BlogWriters> writersOptional = writersRepository.findById(legendsDTO.getWriter());
 
         if(writersOptional.isEmpty()) throw new Error("Escritor não encontrado");
 
         if (legendsOptional.isPresent()) throw new Error("Lenda já existe no banco de dados");
 
         Legends legends = mapper.map(legendsDTO, Legends.class);
-        legends.setBlog_writers(writersOptional.get());
+        legends.setWriter(writersOptional.get());
 
         Legends legendSaved = repository.save(legends);
         return mapper.map(legendSaved, LegendsDTO.class);
@@ -78,7 +78,7 @@ public class LegendsServiceImpl implements LegendsService {
         logger.info("Atualizando uma lenda");
 
         Optional<Legends> legendsOptional = repository.findById(id);
-        Optional<BlogWriters> writersOptional = writersRepository.findById(legendsDTO.getBlogWritersDTO());
+        Optional<BlogWriters> writersOptional = writersRepository.findById(legendsDTO.getWriter());
 
         if(writersOptional.isEmpty()) throw new Error("Escritor não encontrado");
 
@@ -86,7 +86,7 @@ public class LegendsServiceImpl implements LegendsService {
 
         Legends legends = mapper.map(legendsDTO, Legends.class);
         legends.setId(id);
-        legends.setBlog_writers(writersOptional.get());
+        legends.setWriter(writersOptional.get());
 
         Legends legendSaved = repository.save(legends);
         return mapper.map(legendSaved, LegendsDTO.class);
