@@ -56,16 +56,16 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
     }
 
     @Override
-    public CasesWithoutSolutionDTO create(CasesWithoutSolutionDTO casesRequestDTO) {
+    public CasesWithoutSolutionDTO create(CasesWithoutSolutionDTO cases) {
         logger.info("Criando um caso");
 
-        Optional<CasesWithoutSolution> casesOptional = repository.findCasesWithoutSolutionByTitle(casesRequestDTO.getTitle());
+        Optional<CasesWithoutSolution> casesOptional = repository.findCasesWithoutSolutionByTitle(cases.getTitle());
         if(casesOptional.isPresent()) throw new Error("Caso já existe");
 
-        Optional<BlogWriters> writersOpt = writersRepository.findById(casesRequestDTO.getBlogWriters());
+        Optional<BlogWriters> writersOpt = writersRepository.findById(cases.getBlogWriters());
         if(writersOpt.isEmpty()) throw new Error("Escritor não encontrado");
 
-        CasesWithoutSolution casesWithoutSolution = mapper.map(casesRequestDTO, CasesWithoutSolution.class);
+        CasesWithoutSolution casesWithoutSolution = mapper.map(cases, CasesWithoutSolution.class);
         casesWithoutSolution.setBlog_writers(writersOpt.get());
 
         CasesWithoutSolution casesWithoutSolutionSaved = repository.save(casesWithoutSolution);
@@ -73,21 +73,21 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
     }
 
     @Override
-    public CasesWithoutSolutionDTO update(Long id, CasesWithoutSolutionDTO casesRequestDTO) {
+    public CasesWithoutSolutionDTO update(Long id, CasesWithoutSolutionDTO cases) {
         logger.info("Atualizando um caso");
 
         Optional<CasesWithoutSolution> casesOptional = repository.findById(id);
-        Optional<BlogWriters> writersOptional = writersRepository.findById(casesRequestDTO.getBlogWriters());
+        Optional<BlogWriters> writersOptional = writersRepository.findById(cases.getBlogWriters());
 
         if(writersOptional.isEmpty()) throw new Error("Escritor com esse id não encontrado");
 
         if(casesOptional.isEmpty()) throw new Error("Caso com esse id não encontrado");
 
-        CasesWithoutSolution cases = mapper.map(casesRequestDTO, CasesWithoutSolution.class);
-        cases.setId(id);
-        cases.setBlog_writers(writersOptional.get());
+        CasesWithoutSolution casesWSolution = mapper.map(cases, CasesWithoutSolution.class);
+        casesWSolution.setId(id);
+        casesWSolution.setBlog_writers(writersOptional.get());
 
-        CasesWithoutSolution casesSaved = repository.save(cases);
+        CasesWithoutSolution casesSaved = repository.save(casesWSolution);
         return mapper.map(casesSaved, CasesWithoutSolutionDTO.class);
     }
 
