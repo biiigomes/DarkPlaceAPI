@@ -60,17 +60,16 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
         logger.info("Criando um caso");
 
         Optional<CasesWithoutSolution> casesOptional = repository.findCasesWithoutSolutionByTitle(casesRequestDTO.getTitle());
-        Optional<BlogWriters> writersOpt = writersRepository.findById(casesRequestDTO.getBlogWriters().getId());
-        
-            if(writersOpt.isEmpty()) throw new Error("Escritor não encontrado");
+        if(casesOptional.isPresent()) throw new Error("Caso já existe");
 
-            if(casesOptional.isPresent()) throw new Error("Caso já existe");
+        Optional<BlogWriters> writersOpt = writersRepository.findById(casesRequestDTO.getBlogWriters());
+        if(writersOpt.isEmpty()) throw new Error("Escritor não encontrado");
 
-            CasesWithoutSolution casesWithoutSolution = mapper.map(casesRequestDTO, CasesWithoutSolution.class);
-            casesWithoutSolution.setBlog_writers(writersOpt.get());
+        CasesWithoutSolution casesWithoutSolution = mapper.map(casesRequestDTO, CasesWithoutSolution.class);
+        casesWithoutSolution.setBlog_writers(writersOpt.get());
 
-            CasesWithoutSolution casesWithoutSolutionSaved = repository.save(casesWithoutSolution);
-            return mapper.map(casesWithoutSolutionSaved, CasesWithoutSolutionDTO.class);
+        CasesWithoutSolution casesWithoutSolutionSaved = repository.save(casesWithoutSolution);
+        return mapper.map(casesWithoutSolutionSaved, CasesWithoutSolutionDTO.class);
     }
 
     @Override
@@ -78,7 +77,7 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
         logger.info("Atualizando um caso");
 
         Optional<CasesWithoutSolution> casesOptional = repository.findById(id);
-        Optional<BlogWriters> writersOptional = writersRepository.findById(casesRequestDTO.getBlogWriters().getId());
+        Optional<BlogWriters> writersOptional = writersRepository.findById(casesRequestDTO.getBlogWriters());
 
         if(writersOptional.isEmpty()) throw new Error("Escritor com esse id não encontrado");
 

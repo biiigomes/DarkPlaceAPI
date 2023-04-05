@@ -39,7 +39,7 @@ public class CasesWithoutSolution implements Serializable {
     @Column(name = "history")
     private String history;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "writer_id", referencedColumnName = "writer_id")
     private BlogWriters blog_writers;
 }

@@ -60,10 +60,7 @@ public class LegendsServiceImpl implements LegendsService {
         logger.info("Criando uma lenda");
 
         Optional<Legends> legendsOptional = repository.findLegendsByTitle(legendsDTO.getTitle());
-        Optional<BlogWriters> writersOptional = writersRepository.findWriterByNameFullnameAndUsername(
-            legendsDTO.getBlogWritersDTO().getName(), 
-            legendsDTO.getBlogWritersDTO().getFullname(), 
-            legendsDTO.getBlogWritersDTO().getUsername());
+        Optional<BlogWriters> writersOptional = writersRepository.findById(legendsDTO.getBlogWritersDTO());
 
         if(writersOptional.isEmpty()) throw new Error("Escritor não encontrado");
 
@@ -81,7 +78,7 @@ public class LegendsServiceImpl implements LegendsService {
         logger.info("Atualizando uma lenda");
 
         Optional<Legends> legendsOptional = repository.findById(id);
-        Optional<BlogWriters> writersOptional = writersRepository.findById(legendsDTO.getBlogWritersDTO().getId());
+        Optional<BlogWriters> writersOptional = writersRepository.findById(legendsDTO.getBlogWritersDTO());
 
         if(writersOptional.isEmpty()) throw new Error("Escritor não encontrado");
 

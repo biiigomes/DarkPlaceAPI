@@ -34,8 +34,6 @@ public class BlogWritersServiceImpl implements BlogWritersService {
     public Page<BlogWritersDTO> getAll(int page, int size, String sort) {
         logger.info("Encontrando todos os escritores");
         
-        logger.info("Encontrando todos os escritores");
-        
         var pageable = PageRequest.of(page, size, Sort.Direction.ASC, sort);
         Page<BlogWriters> result = repository.findAll(pageable);
         return result.map(obj -> mapper.map(obj, BlogWritersDTO.class));
@@ -43,7 +41,6 @@ public class BlogWritersServiceImpl implements BlogWritersService {
 
     @Override
     public BlogWritersDTO getById(Long id) {
-        logger.info("Encontrando um escritor");
         logger.info("Encontrando um escritor");
 
         BlogWriters writer = repository.findById(id)
