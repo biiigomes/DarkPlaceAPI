@@ -9,11 +9,11 @@ public interface LegendsService {
     
     LegendsDTO getById(Long id);
 
-    LegendsDTO create(LegendsDTO legendsDTO);
+    Page<LegendsDTO> getAllByWriter(int page, int size, String sort, Long id);
 
-    LegendsDTO update(LegendsDTO legendsDTO, Long id);
+    LegendsDTO create(LegendsDTO legends);
+
+    LegendsDTO update(Long id, LegendsDTO legends);
 
     void delete(Long id);
-
-    Page<LegendsDTO> getAllByWriter(int page, int size, String sort, Long id);
 }

@@ -47,7 +47,7 @@ public class CasesWithoutSolutionController {
         @RequestParam(required = false, defaultValue = "0") int page,
         @RequestParam(required = false, defaultValue = "999") int size,
         @RequestParam(required = false, defaultValue = "id") String sort,
-        @PathVariable(value = "name") Long id){
+        @PathVariable(value = "id") Long id){
             return new ResponseEntity<>(casesService.getAllByWriter(page, size, sort, id), HttpStatus.OK);
         }
 
@@ -65,8 +65,9 @@ public class CasesWithoutSolutionController {
         }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<CasesWithoutSolutionDTO> delete(@PathVariable("id") Long id){
-        casesService.delete(id);
-        return new ResponseEntity<>(HttpStatusCode.valueOf(200));
+    public ResponseEntity<CasesWithoutSolutionDTO> delete(
+        @PathVariable("id") Long id){
+            casesService.delete(id);
+            return new ResponseEntity<>(HttpStatusCode.valueOf(200));
     }
 }
