@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.biagomes.darkplace.model.DTO.BlogWritersDTO;
+import com.biagomes.darkplace.model.request.BlogWritersRequestDTO;
+import com.biagomes.darkplace.model.response.BlogWritersResponseDTO;
 import com.biagomes.darkplace.services.BlogWritersService;
 
 import jakarta.validation.Valid;
@@ -30,7 +31,7 @@ public class BlogWritersController {
     private BlogWritersService blogWritersService;
 
     @GetMapping
-    public ResponseEntity<Page<BlogWritersDTO>> getAll(
+    public ResponseEntity<Page<BlogWritersResponseDTO>> getAll(
         @RequestParam(required = false, defaultValue = "0") int page,
         @RequestParam(required = false, defaultValue = "999") int size,
         @RequestParam(required = false, defaultValue = "id") String sort){
@@ -38,25 +39,25 @@ public class BlogWritersController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BlogWritersDTO> getById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<BlogWritersResponseDTO> getById(@PathVariable(value = "id") Long id) {
         return new ResponseEntity<>(blogWritersService.getById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<BlogWritersDTO> create(@Valid @RequestBody BlogWritersDTO writers){
+    public ResponseEntity<BlogWritersResponseDTO> create(@Valid @RequestBody BlogWritersRequestDTO writers){
         return new ResponseEntity<>(blogWritersService.create(writers), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BlogWritersDTO> update(
+    public ResponseEntity<BlogWritersResponseDTO> update(
         @Valid 
-        @RequestBody BlogWritersDTO writers, 
+        @RequestBody BlogWritersRequestDTO writers, 
         @PathVariable("id") Long id){
             return new ResponseEntity<>(blogWritersService.update(id, writers), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BlogWritersDTO> delete(@PathVariable("id") Long id){
+    public ResponseEntity<BlogWritersResponseDTO> delete(@PathVariable("id") Long id){
         blogWritersService.delete(id);
         return new ResponseEntity<>(HttpStatusCode.valueOf(200));
     }

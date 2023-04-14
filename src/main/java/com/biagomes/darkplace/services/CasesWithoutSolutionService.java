@@ -2,18 +2,19 @@ package com.biagomes.darkplace.services;
 
 import org.springframework.data.domain.Page;
 
-import com.biagomes.darkplace.model.DTO.CasesWithoutSolutionDTO;
+import com.biagomes.darkplace.model.request.CasesWithouSolutionRequestDTO;
+import com.biagomes.darkplace.model.response.CasesWithoutSolutionResponseDTO;
 
 public interface CasesWithoutSolutionService {
-    Page<CasesWithoutSolutionDTO> getAll(int page, int size, String sort);
+    Page<CasesWithoutSolutionResponseDTO> getAll(int page, int size, String sort);
     
-    CasesWithoutSolutionDTO getById(Long id);
+    CasesWithoutSolutionResponseDTO getById(Long id);
 
-    Page<CasesWithoutSolutionDTO> getAllByWriter(int page, int size, String sort, Long id);
+    Page<CasesWithoutSolutionResponseDTO> getAllByWriter(int page, int size, String sort, Long id);
 
-    CasesWithoutSolutionDTO create(CasesWithoutSolutionDTO cases);
+    CasesWithoutSolutionResponseDTO create(CasesWithouSolutionRequestDTO cases);
 
-    CasesWithoutSolutionDTO update(Long id, CasesWithoutSolutionDTO cases);
+    CasesWithoutSolutionResponseDTO update(Long id, CasesWithouSolutionRequestDTO cases);
 
     void delete(Long id);
 }

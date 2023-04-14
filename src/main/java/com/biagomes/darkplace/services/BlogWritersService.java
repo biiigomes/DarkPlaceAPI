@@ -2,16 +2,17 @@ package com.biagomes.darkplace.services;
 
 import org.springframework.data.domain.Page;
 
-import com.biagomes.darkplace.model.DTO.BlogWritersDTO;
+import com.biagomes.darkplace.model.request.BlogWritersRequestDTO;
+import com.biagomes.darkplace.model.response.BlogWritersResponseDTO;
 
 public interface BlogWritersService {
-    Page<BlogWritersDTO> getAll(int page, int size, String sort);
+    Page<BlogWritersResponseDTO> getAll(int page, int size, String sort);
 
-    BlogWritersDTO getById(Long id);
+    BlogWritersResponseDTO getById(Long id);
 
-    BlogWritersDTO create(BlogWritersDTO writers);
+    BlogWritersResponseDTO create(BlogWritersRequestDTO writers);
 
-    BlogWritersDTO update(Long id, BlogWritersDTO writers);
+    BlogWritersResponseDTO update(Long id, BlogWritersRequestDTO writers);
 
     void delete(Long id);
 

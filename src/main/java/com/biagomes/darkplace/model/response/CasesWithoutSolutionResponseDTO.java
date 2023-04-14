@@ -1,4 +1,6 @@
-package com.biagomes.darkplace.model.DTO;
+package com.biagomes.darkplace.model.response;
+
+import com.biagomes.darkplace.model.BlogWriters;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +11,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CasesWithoutSolutionDTO {
+public class CasesWithoutSolutionResponseDTO {
     private Long id;
     private String title;
     private String history;
-    private Long writers;
+    private BlogWriters writer;
 }

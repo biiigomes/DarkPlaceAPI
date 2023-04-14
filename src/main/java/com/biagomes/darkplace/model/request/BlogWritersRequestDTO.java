@@ -1,10 +1,8 @@
-package com.biagomes.darkplace.model.DTO;
+package com.biagomes.darkplace.model.request;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-import com.biagomes.darkplace.model.CasesWithoutSolution;
-import com.biagomes.darkplace.model.Legends;
-
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,12 +12,18 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlogWritersDTO {
+public class BlogWritersRequestDTO {
     private Long id;
+
+    @NotBlank
     private String name;
+
+    @NotBlank
     private String fullname;
+
+    @NotBlank
     private String username;
+
+    @JsonFormat(pattern = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")
     private String email;
-    private List<CasesWithoutSolution> casesWithoutSolution;
-    private List<Legends> legends;
 }

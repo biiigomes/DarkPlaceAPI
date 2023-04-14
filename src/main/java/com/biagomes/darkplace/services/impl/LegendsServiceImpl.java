@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.biagomes.darkplace.model.BlogWriters;
 import com.biagomes.darkplace.model.Legends;
-import com.biagomes.darkplace.model.DTO.LegendsDTO;
+import com.biagomes.darkplace.model.request.LegendsRequestDTO;
+import com.biagomes.darkplace.model.response.LegendsResponseDTO;
 import com.biagomes.darkplace.repository.BlogWritersRepository;
 import com.biagomes.darkplace.repository.LegendsRepository;
 import com.biagomes.darkplace.services.LegendsService;
@@ -37,53 +38,53 @@ public class LegendsServiceImpl implements LegendsService {
     private ModelMapper mapper;
     
     @Override
-    public Page<LegendsDTO> getAll(int page, int size, String sort) {
+    public Page<LegendsResponseDTO> getAll(int page, int size, String sort) {
         logger.info("Encontrando todas as lendas");
 
         Pageable pageable = PageRequest.of(page, size, Sort.Direction.ASC, sort);
         Page<Legends> result = repository.findAll(pageable);
-        return result.map(obj -> mapper.map(obj, LegendsDTO.class));
+        return result.map(obj -> mapper.map(obj, LegendsResponseDTO.class));
     }
 
     @Override
-    public LegendsDTO getById(Long id) {
+    public LegendsResponseDTO getById(Long id) {
         logger.info("Encontrando uma lenda");
 
         Legends legends = repository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Lenda com esse id não existe."));
 
-        return mapper.map(legends, LegendsDTO.class);
+        return mapper.map(legends, LegendsResponseDTO.class);
     }
 
     @Override
-    public Page<LegendsDTO> getAllByWriter(int page, int size, String sort, Long id) {
+    public Page<LegendsResponseDTO> getAllByWriter(int page, int size, String sort, Long id) {
         logger.info("Procurando lendas por autor");
         
         Pageable pageabe = PageRequest.of(page, size, Sort.Direction.ASC, sort);
         Page<Legends> legendPage = repository.findLegendsByWriter(pageabe, id); 
 
-        return legendPage.map(obj -> mapper.map(obj, LegendsDTO.class));
+        return legendPage.map(obj -> mapper.map(obj, LegendsResponseDTO.class));
     }
 
     @Override
-    public LegendsDTO create(LegendsDTO legends) {
+    public LegendsResponseDTO create(LegendsRequestDTO legends) {
         logger.info("Criando uma lenda");
 
         Optional<Legends> legendsOptional = repository.findLegendsByTitle(legends.getTitle());
-        if (legendsOptional.isPresent()) throw new Error("Lenda já existe no banco de dados");
+        if (legendsOptional.isPresent()) throw new Error("Lenda já existe");
 
         Optional<BlogWriters> writersOptional = writersRepository.findById(legends.getWriter());
         if(writersOptional.isEmpty()) throw new Error("Escritor não encontrado");
 
         Legends mappedLegends = mapper.map(legends, Legends.class);
-        mappedLegends.setWriter(writersOptional.get());
+        // mappedLegends.setWriter(writersOptional.get());
 
         Legends legendSaved = repository.save(mappedLegends);
-        return mapper.map(legendSaved, LegendsDTO.class);
+        return mapper.map(legendSaved, LegendsResponseDTO.class);
     }
 
     @Override
-    public LegendsDTO update(Long id, LegendsDTO legends) {
+    public LegendsResponseDTO update(Long id, LegendsRequestDTO legends) {
         logger.info("Atualizando uma lenda");
 
         Optional<Legends> legendsOptional = repository.findById(id);
@@ -98,7 +99,7 @@ public class LegendsServiceImpl implements LegendsService {
         // mappedLegends.setWriter(writersOptional.get());
 
         Legends legendSaved = repository.save(mappedLegends);
-        return mapper.map(legendSaved, LegendsDTO.class);
+        return mapper.map(legendSaved, LegendsResponseDTO.class);
     }
 
     @Override

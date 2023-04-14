@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
 
 import com.biagomes.darkplace.model.BlogWriters;
-import com.biagomes.darkplace.model.DTO.BlogWritersDTO;
+import com.biagomes.darkplace.model.request.BlogWritersRequestDTO;
+import com.biagomes.darkplace.model.response.BlogWritersResponseDTO;
 import com.biagomes.darkplace.repository.BlogWritersRepository;
 import com.biagomes.darkplace.services.BlogWritersService;
 
@@ -31,25 +32,25 @@ public class BlogWritersServiceImpl implements BlogWritersService {
     private ModelMapper mapper;
     
     @Override
-    public Page<BlogWritersDTO> getAll(int page, int size, String sort) {
+    public Page<BlogWritersResponseDTO> getAll(int page, int size, String sort) {
         logger.info("Encontrando todos os escritores");
         
         var pageable = PageRequest.of(page, size, Sort.Direction.ASC, sort);
         Page<BlogWriters> result = repository.findAll(pageable);
-        return result.map(obj -> mapper.map(obj, BlogWritersDTO.class));
+        return result.map(obj -> mapper.map(obj, BlogWritersResponseDTO.class));
     }
 
     @Override
-    public BlogWritersDTO getById(Long id) {
+    public BlogWritersResponseDTO getById(Long id) {
         logger.info("Encontrando um escritor");
 
         BlogWriters writer = repository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Autor com esse id não encontrado"));
-        return mapper.map(writer, BlogWritersDTO.class);
+        return mapper.map(writer, BlogWritersResponseDTO.class);
     }
 
     @Override
-    public BlogWritersDTO create(BlogWritersDTO writers) {
+    public BlogWritersResponseDTO create(BlogWritersRequestDTO writers) {
         logger.info("Criando um escritor");
 
         Optional<BlogWriters> writerExists = repository
@@ -62,11 +63,11 @@ public class BlogWritersServiceImpl implements BlogWritersService {
         if(writerExists.isPresent()) throw new Error("Autor já registrado.");
 
         BlogWriters blogWriters = repository.save(mapper.map(writers, BlogWriters.class));
-        return mapper.map(blogWriters, BlogWritersDTO.class);
+        return mapper.map(blogWriters, BlogWritersResponseDTO.class);
     }
 
     @Override
-    public BlogWritersDTO update(Long id, BlogWritersDTO writers) {
+    public BlogWritersResponseDTO update(Long id, BlogWritersRequestDTO writers) {
         logger.info("Atualizando um escritor");
 
         Optional<BlogWriters> writerExists = repository.findById(id);
@@ -75,7 +76,7 @@ public class BlogWritersServiceImpl implements BlogWritersService {
 
         writers.setId(id);
         BlogWriters blogWriters = repository.save(mapper.map(writers, BlogWriters.class));
-        return mapper.map(blogWriters, BlogWritersDTO.class);
+        return mapper.map(blogWriters, BlogWritersResponseDTO.class);
     }
 
     @Override

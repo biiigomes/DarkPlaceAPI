@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.biagomes.darkplace.model.DTO.LegendsDTO;
+import com.biagomes.darkplace.model.request.LegendsRequestDTO;
+import com.biagomes.darkplace.model.response.LegendsResponseDTO;
 import com.biagomes.darkplace.services.LegendsService;
 
 import jakarta.validation.Valid;
@@ -30,7 +31,7 @@ public class LegendsController {
     private LegendsService legendsService;
 
     @GetMapping
-    public ResponseEntity<Page<LegendsDTO>> getAll(
+    public ResponseEntity<Page<LegendsResponseDTO>> getAll(
         @RequestParam(required = false, defaultValue = "0") int page,
         @RequestParam(required = false, defaultValue = "999") int size,
         @RequestParam(required = false, defaultValue = "id") String sort){
@@ -38,12 +39,12 @@ public class LegendsController {
         }
     
     @GetMapping("/{id}")
-    public ResponseEntity<LegendsDTO> getById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<LegendsResponseDTO> getById(@PathVariable(value = "id") Long id) {
         return new ResponseEntity<>(legendsService.getById(id), HttpStatus.OK);
     }
 
     @GetMapping("/writer/{id}")
-    public ResponseEntity<Page<LegendsDTO>> getAllByWriter(
+    public ResponseEntity<Page<LegendsResponseDTO>> getAllByWriter(
         @RequestParam(required =  false, defaultValue = "0") int page,
         @RequestParam(required = false, defaultValue = "999") int size,
         @RequestParam(required = false, defaultValue = "id") String sort,
@@ -52,20 +53,20 @@ public class LegendsController {
         }
     
     @PostMapping
-    public ResponseEntity<LegendsDTO> create(@Valid @RequestBody LegendsDTO legendsDTO){
+    public ResponseEntity<LegendsResponseDTO> create(@Valid @RequestBody LegendsRequestDTO legendsDTO){
         return new ResponseEntity<>(legendsService.create(legendsDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LegendsDTO> update(
+    public ResponseEntity<LegendsResponseDTO> update(
         @Valid
-        @RequestBody LegendsDTO legendsDTO,
+        @RequestBody LegendsRequestDTO legendsDTO,
         @PathVariable("id") Long id){
             return new ResponseEntity<>(legendsService.update(id, legendsDTO), HttpStatus.OK);
         }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<LegendsDTO> delete(
+    public ResponseEntity<LegendsResponseDTO> delete(
         @PathVariable("id") Long id){
             legendsService.delete(id);
             return new ResponseEntity<>(HttpStatusCode.valueOf(200));

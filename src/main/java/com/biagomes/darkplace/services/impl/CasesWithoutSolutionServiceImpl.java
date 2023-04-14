@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.biagomes.darkplace.model.BlogWriters;
 import com.biagomes.darkplace.model.CasesWithoutSolution;
-import com.biagomes.darkplace.model.DTO.CasesWithoutSolutionDTO;
+import com.biagomes.darkplace.model.request.CasesWithouSolutionRequestDTO;
+import com.biagomes.darkplace.model.response.CasesWithoutSolutionResponseDTO;
 import com.biagomes.darkplace.repository.BlogWritersRepository;
 import com.biagomes.darkplace.repository.CasesWithoutSolutionRepository;
 import com.biagomes.darkplace.services.CasesWithoutSolutionService;
@@ -37,54 +38,54 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
     private ModelMapper mapper;
 
     @Override
-    public Page<CasesWithoutSolutionDTO> getAll(int page, int size, String sort) {
+    public Page<CasesWithoutSolutionResponseDTO> getAll(int page, int size, String sort) {
         logger.info("Encontrando todos os casos");
 
         Pageable pageable = PageRequest.of(page, size, Sort.Direction.ASC, sort);
         Page<CasesWithoutSolution> result = repository.findAll(pageable);
-        return result.map(obj -> mapper.map(obj, CasesWithoutSolutionDTO.class));
+        return result.map(obj -> mapper.map(obj, CasesWithoutSolutionResponseDTO.class));
     }
 
     @Override
-    public CasesWithoutSolutionDTO getById(Long id) {
+    public CasesWithoutSolutionResponseDTO getById(Long id) {
         logger.info("Encontrando o caso");
 
         CasesWithoutSolution casesWithoutSolution = repository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Caso com esse id não existe."));
 
-        return mapper.map(casesWithoutSolution, CasesWithoutSolutionDTO.class);
+        return mapper.map(casesWithoutSolution, CasesWithoutSolutionResponseDTO.class);
     }
 
     @Override
-    public Page<CasesWithoutSolutionDTO> getAllByWriter(int page, int size, String sort, Long id) {
+    public Page<CasesWithoutSolutionResponseDTO> getAllByWriter(int page, int size, String sort, Long id) {
        logger.info("Procurando por casos por autor");
 
        Pageable pageable = PageRequest.of(page, size, Sort.Direction.ASC, sort);
        Page<CasesWithoutSolution> casesPage = repository.findCasesWithoutSolutionByWriter(pageable, id);
 
-       return casesPage.map(obj -> mapper.map(obj, CasesWithoutSolutionDTO.class));
+       return casesPage.map(obj -> mapper.map(obj, CasesWithoutSolutionResponseDTO.class));
 
     }
 
     @Override
-    public CasesWithoutSolutionDTO create(CasesWithoutSolutionDTO cases) {
+    public CasesWithoutSolutionResponseDTO create(CasesWithouSolutionRequestDTO cases) {
         logger.info("Criando um caso");
 
         Optional<CasesWithoutSolution> casesOptional = repository.findCasesWithoutSolutionByTitle(cases.getTitle());
         if(casesOptional.isPresent()) throw new Error("Caso já existe");
 
-        Optional<BlogWriters> writerOptional = writersRepository.findById(cases.getWriters());
+        Optional<BlogWriters> writerOptional = writersRepository.findById(cases.getWriter());
         if(writerOptional.isEmpty()) throw new Error("Escritor não encontrado");
 
         CasesWithoutSolution casesWSolution = mapper.map(cases, CasesWithoutSolution.class);
         casesWSolution.setWriter(writerOptional.get());
 
         CasesWithoutSolution casesWSolutionSaved = repository.save(casesWSolution);
-        return mapper.map(casesWSolutionSaved, CasesWithoutSolutionDTO.class);
+        return mapper.map(casesWSolutionSaved, CasesWithoutSolutionResponseDTO.class);
     }
 
     @Override
-    public CasesWithoutSolutionDTO update(Long id, CasesWithoutSolutionDTO cases) {
+    public CasesWithoutSolutionResponseDTO update(Long id, CasesWithouSolutionRequestDTO cases) {
         logger.info("Atualizando um caso");
 
         Optional<CasesWithoutSolution> casesOptional = repository.findById(id);
@@ -95,7 +96,7 @@ public class CasesWithoutSolutionServiceImpl implements CasesWithoutSolutionServ
         // casesWSolution.setBlog_writers(writersOpt.get());
 
         CasesWithoutSolution casesSaved = repository.save(casesWSolution);
-        return mapper.map(casesSaved, CasesWithoutSolutionDTO.class);
+        return mapper.map(casesSaved, CasesWithoutSolutionResponseDTO.class);
     }
 
     @Override
